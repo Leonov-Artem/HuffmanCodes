@@ -10,9 +10,10 @@ namespace Huffman_Codes
     class HuffmanTree
     {
         private Node Root;
-        private char[] alphabet;
-        private int[] frequencies;
+        private readonly char[] alphabet;
+        private readonly int[] frequencies;
         private Dictionary<char, string> CodeTable = new Dictionary<char, string>();
+        private Dictionary<string, char> DecodeTable = new Dictionary<string, char>();
 
         public HuffmanTree(char[] alphabet, int[] frequencies)
         {
@@ -20,6 +21,7 @@ namespace Huffman_Codes
             this.frequencies = frequencies;
             BuildHuffmanTree();
             FillCodeTable(Root);
+            FillDecodeTable();
         }
 
         private void BuildHuffmanTree()
@@ -49,9 +51,9 @@ namespace Huffman_Codes
             }
             this.Root = nodes.FirstOrDefault();
         }
-        private void FillCodeTable(Node Current, string bit="")
+        private void FillCodeTable(Node Current, string bit = "")
         {
-            if(Current != null)
+            if (Current != null)
             {
                 if (Current.LeftChild == null && Current.RightChild == null)
                 {
@@ -69,5 +71,22 @@ namespace Huffman_Codes
                 encode += "" + CodeTable[symbol];
             return encode;
         }
+        //public string Decode(string code)
+        //{
+        //    string decode = "";
+        //    string word = "";
+        //    for (int i = 0; i < code.Length; i++)
+        //    {
+        //        word += code[i];
+        //        if (CodeTable.ContainsValue(word))
+        //            decode +=
+        //    }
+        //}
+        private void FillDecodeTable()
+        {
+            foreach (var symbol in alphabet)
+                DecodeTable[CodeTable[symbol]] = symbol;
+        }
     }
+
 }

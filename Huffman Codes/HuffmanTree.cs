@@ -18,9 +18,11 @@ namespace Huffman_Codes
         {
             this.alphabet = alphabet;
             this.frequencies = frequencies;
+            BuildHuffmanTree();
+            FillCodeTable(Root);
         }
 
-        public void BuildHuffmanTree()
+        private void BuildHuffmanTree()
         {
             List<Node> nodes = new List<Node>();
             for (int i = 0; i < frequencies.Length; i++)

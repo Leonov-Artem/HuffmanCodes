@@ -10,8 +10,11 @@ namespace Huffman_Codes
     {
         static void Main(string[] args)
         {
+            string message = "ABCB";
             HuffmanTree huffmanTree = new HuffmanTree(new char[] { 'A', 'B', 'C' }, new int[] { 2, 3, 1 });
-            string encode = huffmanTree.Encode("BBBBB");
+
+            string encode = huffmanTree.Encode(message);
+            string decode = huffmanTree.Decode(encode);
         }
     }
 }

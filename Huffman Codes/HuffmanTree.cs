@@ -64,6 +64,12 @@ namespace Huffman_Codes
                 FillCodeTable(Current.RightChild, bit + "1");
             }
         }
+        private void FillDecodeTable()
+        {
+            foreach (var symbol in alphabet)
+                DecodeTable[CodeTable[symbol]] = symbol;
+        }
+
         public string Encode(string sentence)
         {
             string encode = "";
@@ -71,22 +77,23 @@ namespace Huffman_Codes
                 encode += "" + CodeTable[symbol];
             return encode;
         }
-        //public string Decode(string code)
-        //{
-        //    string decode = "";
-        //    string word = "";
-        //    for (int i = 0; i < code.Length; i++)
-        //    {
-        //        word += code[i];
-        //        if (CodeTable.ContainsValue(word))
-        //            decode +=
-        //    }
-        //}
-        private void FillDecodeTable()
+        public string Decode(string code)
         {
-            foreach (var symbol in alphabet)
-                DecodeTable[CodeTable[symbol]] = symbol;
-        }
+            string decode = "";
+            string word = "";
+
+            for (int i = 0; i < code.Length; i++)
+            {
+                word += code[i];
+                if (DecodeTable.ContainsKey(word))
+                {
+                    decode += DecodeTable[word];
+                    word = "";
+                }
+
+            }
+            return decode;
+        }    
     }
 
 }

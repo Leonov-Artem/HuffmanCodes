@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace Huffman_Codes
         private Node Root;
         private string[] alphabet;
         private int[] frequencies;
+        private Hashtable CodeTable = new Hashtable();
 
         public HuffmanTree(string[] alphabet, int[] frequencies)
         {
@@ -44,6 +46,19 @@ namespace Huffman_Codes
                 }
             }
             this.Root = nodes.FirstOrDefault();
+        }
+        private void FillCodeTable(Node Current, string bit="")
+        {
+            if(Current != null)
+            {
+                if (Current.LeftChild == null && Current.RightChild == null)
+                {
+                    CodeTable.Add(Current.Symbol, bit);
+                    return;
+                }
+                FillCodeTable(Current.LeftChild, bit + "0");
+                FillCodeTable(Current.RightChild, bit + "1");
+            }
         }
     }
 }

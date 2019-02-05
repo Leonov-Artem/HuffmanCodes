@@ -11,7 +11,13 @@ namespace Huffman_Codes
         public int Frequency { get; set; }
         public string Symbol { get; set; }
 
-        Node LeftChild;
-        Node RightChild;
+       public Node LeftChild;
+       public Node RightChild;
+
+        public Node(string symbol, int frequency)
+        {
+            Frequency = frequency;
+            Symbol = symbol;
+        }
     }
 }

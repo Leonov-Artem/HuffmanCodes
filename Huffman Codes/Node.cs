@@ -8,7 +8,7 @@ namespace HuffmanCodes
 {
     class Node
     {
-        public int Frequency { get; set; }
+        public double Frequency { get; set; }
         public char Symbol { get; set; }
         public Node LeftChild { get; set; }
         public Node RightChild { get; set; }
@@ -18,7 +18,7 @@ namespace HuffmanCodes
             get => LeftChild == null && RightChild == null;
         }
 
-        public Node(char symbol, int frequency)
+        public Node(char symbol, double frequency)
         {
             Frequency = frequency;
             Symbol = symbol;

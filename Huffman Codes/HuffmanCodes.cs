@@ -15,35 +15,33 @@ namespace HuffmanCodes
         readonly int RIGHT_NODE = 1;
 
         Node _treeRoot;
-        readonly char[] _alphabet;
-        readonly int[] _frequencies;
-        Dictionary<char, string> _codeTable = new Dictionary<char, string>();
+        string _text;
 
-        public HuffmanCodes(Dictionary<char, int> alphabetFrequencies)
-        {
-            _alphabet = alphabetFrequencies.Keys.ToArray();
-            _frequencies = alphabetFrequencies.Values.ToArray();
-            _treeRoot = BuildHuffmanTree(alphabetFrequencies);
-            FillCodeTable(_treeRoot);
-        }
+        public Dictionary<char, string> CodeTable { get; private set; }
 
         public HuffmanCodes(string text)
         {
-            Dictionary<char, int> alphabetFrequencies = ComputeFrequencies(text);
-            _alphabet = alphabetFrequencies.Keys.ToArray();
-            _frequencies = alphabetFrequencies.Values.ToArray();
-            _treeRoot = BuildHuffmanTree(alphabetFrequencies);
-            FillCodeTable(_treeRoot);
+            _text = text;
+            Dictionary<char, double> alphabetFrequencies = ComputeFrequencies(text);
+            FieldsInitialize(alphabetFrequencies);
+        }
+
+        public HuffmanCodes(Dictionary<char, double> alphabetFrequencies)
+        {
+            FieldsInitialize(alphabetFrequencies);
         }
 
         public string Encode(string text)
         {
             var encode = new StringBuilder();
             foreach (var symbol in text)
-                encode.Append(_codeTable[symbol]);
+                encode.Append(CodeTable[symbol]);
 
             return encode.ToString();
         }
+
+        public string Encode()
+            => Encode(_text);
 
         public string Decode(string huffmanCode)
         {
@@ -69,9 +67,16 @@ namespace HuffmanCodes
             return decode.ToString();
         }
 
-        private Dictionary<char, int> ComputeFrequencies(string text)
+        private void FieldsInitialize(Dictionary<char, double> alphabetFrequencies)
         {
-            var alphabetFrequencies = new Dictionary<char, int>();
+            _treeRoot = BuildHuffmanTree(alphabetFrequencies);
+            CodeTable = new Dictionary<char, string>();
+            FillCodeTable(_treeRoot);
+        }
+
+        private Dictionary<char, double> ComputeFrequencies(string text)
+        {
+            var alphabetFrequencies = new Dictionary<char, double>();
             foreach(var symbol in text)
             {
                 if (alphabetFrequencies.ContainsKey(symbol))
@@ -83,7 +88,7 @@ namespace HuffmanCodes
             return alphabetFrequencies;
         }
 
-        private Node BuildHuffmanTree(Dictionary<char, int> alphabetFrequencies)
+        private Node BuildHuffmanTree(Dictionary<char, double> alphabetFrequencies)
         {
             List<Node> nodes = ListNodesInit(alphabetFrequencies);
 
@@ -106,7 +111,7 @@ namespace HuffmanCodes
             {
                 if (currentNode.IsLeaf)
                 {
-                    _codeTable[currentNode.Symbol] = bitString;
+                    CodeTable[currentNode.Symbol] = bitString;
                     return;
                 }
 
@@ -115,7 +120,7 @@ namespace HuffmanCodes
             }
         }
 
-        private List<Node> ListNodesInit(Dictionary<char, int> alphabetFrequencies)
+        private List<Node> ListNodesInit(Dictionary<char, double> alphabetFrequencies)
         {
             var nodes = new List<Node>();
             foreach (var pair in alphabetFrequencies)

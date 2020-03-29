@@ -4,15 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Huffman_Codes
+namespace HuffmanCodes
 {
     class Node
     {
         public int Frequency { get; set; }
         public char Symbol { get; set; }
+        public Node LeftChild { get; set; }
+        public Node RightChild { get; set; }
 
-       public Node LeftChild;
-       public Node RightChild;
+        public bool IsLeaf
+        {
+            get => LeftChild == null && RightChild == null;
+        }
 
         public Node(char symbol, int frequency)
         {
